@@ -7,7 +7,6 @@ export default function ConnexionPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
 
   async function handleLogin() {
     if (!email || !password) {
@@ -20,31 +19,20 @@ export default function ConnexionPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setSuccess(true);
-        setTimeout(() => { window.location.href = '/compte'; }, 500);
+        window.location.replace('/compte');
       } else {
         setError(data.error || 'Erreur de connexion');
+        setLoading(false);
       }
-    } catch (e) {
+    } catch {
       setError('Erreur réseau. Réessayez.');
-    } finally {
       setLoading(false);
     }
-  }
-
-  if (success) {
-    return (
-      <div style={{ fontFamily: 'Arial, sans-serif', minHeight: '100vh', background: '#F7F5F0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
-          <div style={{ fontSize: '18px', fontWeight: 700 }}>Connexion réussie ! Redirection…</div>
-        </div>
-      </div>
-    );
   }
 
   return (
