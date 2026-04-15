@@ -1,18 +1,19 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function ConnexionPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!email || !password) { setError('Veuillez remplir tous les champs'); return; }
+  async function handleLogin() {
+    if (!email || !password) {
+      setError('Veuillez remplir tous les champs');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
@@ -22,18 +23,29 @@ export default function ConnexionPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Erreur de connexion');
+      if (res.ok && data.success) {
+        setSuccess(true);
+        setTimeout(() => { window.location.href = '/compte'; }, 500);
       } else {
-        router.push('/compte');
-        router.refresh();
+        setError(data.error || 'Erreur de connexion');
       }
-    } catch {
+    } catch (e) {
       setError('Erreur réseau. Réessayez.');
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+  if (success) {
+    return (
+      <div style={{ fontFamily: 'Arial, sans-serif', minHeight: '100vh', background: '#F7F5F0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+          <div style={{ fontSize: '18px', fontWeight: 700 }}>Connexion réussie ! Redirection…</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', minHeight: '100vh', background: '#F7F5F0', display: 'flex', flexDirection: 'column' }}>
@@ -64,63 +76,43 @@ export default function ConnexionPage() {
             )}
 
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
                 Adresse email
-              </label>
+              </div>
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="vous@exemple.fr"
-                onKeyDown={e => e.key === 'Enter' && handleSubmit()}
                 style={{ width: '100%', border: '1px solid #E2DDD6', borderRadius: '9px', padding: '11px 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
-                onFocus={e => e.target.style.borderColor = '#E8460A'}
-                onBlur={e => e.target.style.borderColor = '#E2DDD6'}
               />
             </div>
 
-            <div style={{ marginBottom: '8px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Mot de passe
-                </label>
-                <Link href="#" style={{ fontSize: '12px', color: '#E8460A', textDecoration: 'none' }}>
-                  Mot de passe oublié ?
-                </Link>
+            <div style={{ marginBottom: '20px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                Mot de passe
               </div>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="Votre mot de passe"
-                  onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-                  style={{ width: '100%', border: '1px solid #E2DDD6', borderRadius: '9px', padding: '11px 44px 11px 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
-                  onFocus={e => e.target.style.borderColor = '#E8460A'}
-                  onBlur={e => e.target.style.borderColor = '#E2DDD6'}
-                />
-                <button onClick={() => setShowPassword(!showPassword)}
-                  style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}>
-                  {showPassword ? '🙈' : '👁️'}
-                </button>
-              </div>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Votre mot de passe"
+                onKeyDown={e => { if (e.key === 'Enter') handleLogin(); }}
+                style={{ width: '100%', border: '1px solid #E2DDD6', borderRadius: '9px', padding: '11px 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
+              />
             </div>
 
-            <button onClick={handleSubmit} disabled={loading}
-              style={{ width: '100%', background: loading ? '#AEABA3' : '#E8460A', color: '#fff', border: 'none', borderRadius: '9px', padding: '13px', fontSize: '15px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', marginTop: '20px' }}>
-              {loading ? '⏳ Connexion…' : 'Se connecter →'}
+            <button
+              onClick={handleLogin}
+              disabled={loading}
+              style={{ width: '100%', background: loading ? '#AEABA3' : '#E8460A', color: '#fff', border: 'none', borderRadius: '9px', padding: '13px', fontSize: '15px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer' }}>
+              {loading ? '⏳ Connexion en cours…' : 'Se connecter →'}
             </button>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '20px 0' }}>
-              <div style={{ flex: 1, height: '1px', background: '#E2DDD6' }} />
-              <span style={{ fontSize: '12px', color: '#AEABA3' }}>ou</span>
-              <div style={{ flex: 1, height: '1px', background: '#E2DDD6' }} />
-            </div>
-
-            <div style={{ background: '#F7F5F0', borderRadius: '9px', padding: '12px 14px', fontSize: '12px', color: '#6B6B66', textAlign: 'center' }}>
-              Nouveau sur FranceOccas ?{' '}
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#6B6B66' }}>
+              Pas encore de compte ?{' '}
               <Link href="/auth/inscription" style={{ color: '#E8460A', fontWeight: 600, textDecoration: 'none' }}>
-                Créer un compte gratuit →
+                Créer un compte gratuit
               </Link>
             </div>
           </div>
