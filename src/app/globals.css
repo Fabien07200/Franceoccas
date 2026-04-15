@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-orange: #E8460A;
+  --color-orange-light: #FFF0EB;
+  --color-dark: #1A1A18;
+  --color-gray: #6B6B66;
+  --color-bg: #F7F5F0;
+  --color-white: #FFFFFF;
+  --color-border: #E2DDD6;
+  --color-green: #1D9E75;
+  --color-green-light: #E1F5EE;
+  --color-green-dark: #085041;
+  --color-blue: #378ADD;
+  --color-blue-light: #E6F1FB;
+  --color-amber: #BA7517;
+  --color-amber-light: #FAEEDA;
+  --color-red: #E24B4A;
+  --color-red-light: #FCEBEB;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ────────────────────────────────────────────── */
+.font-syne { font-family: 'Syne', sans-serif; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.btn-primary {
+  @apply bg-orange text-white font-semibold px-4 py-2.5 rounded-[10px] 
+         transition-all duration-150 hover:bg-[#CC3D08] active:scale-95
+         disabled:bg-[#E2DDD6] disabled:cursor-not-allowed disabled:text-gray-400;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btn-secondary {
+  @apply bg-dark text-white font-semibold px-4 py-2.5 rounded-[10px]
+         transition-all duration-150 hover:bg-[#2A2A28] active:scale-95;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btn-ghost {
+  @apply border border-[#E2DDD6] bg-transparent text-[#1A1A18] px-3 py-2 rounded-lg
+         text-sm transition-all duration-150 hover:border-orange hover:text-orange
+         active:scale-95 cursor-pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btn-success {
+  @apply bg-green-600 text-white font-semibold px-4 py-2.5 rounded-[10px]
+         transition-all duration-150 hover:bg-green-700 active:scale-95;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ─── Cards ─────────────────────────────────────────────────── */
+.card {
+  @apply bg-white border border-[#E2DDD6] rounded-[14px] overflow-hidden;
+}
+
+.card-hover {
+  @apply card transition-all duration-150 hover:shadow-md hover:-translate-y-0.5 cursor-pointer;
+}
+
+/* ─── Form elements ─────────────────────────────────────────── */
+.input {
+  @apply w-full border border-[#E2DDD6] rounded-[8px] px-3 py-2.5 text-sm
+         font-['DM_Sans'] text-dark bg-white outline-none transition-colors duration-150
+         focus:border-orange placeholder:text-[#AEABA3];
+}
+
+.label {
+  @apply text-[10px] font-semibold text-[#6B6B66] uppercase tracking-[0.5px] mb-1.5 block;
+}
+
+/* ─── Tags / Badges ─────────────────────────────────────────── */
+.tag {
+  @apply text-[10px] font-semibold px-2 py-0.5 rounded-[8px] whitespace-nowrap;
+}
+.tag-active { @apply bg-[#E1F5EE] text-[#085041]; }
+.tag-pending { @apply bg-[#FAEEDA] text-[#633806]; }
+.tag-blocked { @apply bg-[#FCEBEB] text-[#791F1F]; }
+.tag-pro { @apply bg-[#1A1A18] text-white; }
+.tag-boost { @apply bg-[#FFF0EB] text-[#993C1D]; }
+.tag-new { @apply bg-[#E6F1FB] text-[#0C447C]; }
+
+/* ─── Stars ─────────────────────────────────────────────────── */
+.star-full { color: #F5C518; }
+.star-empty { color: #E2DDD6; }
+
+/* ─── Skeleton loader ───────────────────────────────────────── */
+.skeleton {
+  @apply bg-[#E2DDD6] rounded animate-pulse;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #C8C4BC; }
+
+/* ─── Price display ─────────────────────────────────────────── */
+.price {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+/* ─── Alert boxes ───────────────────────────────────────────── */
+.alert-info { @apply bg-[#E6F1FB] border border-[#B5D4F4] rounded-[10px] p-3; }
+.alert-success { @apply bg-[#E1F5EE] border border-[#9FE1CB] rounded-[10px] p-3; }
+.alert-warning { @apply bg-[#FAEEDA] border border-[#FAC775] rounded-[10px] p-3; }
+.alert-danger { @apply bg-[#FCEBEB] border border-[#F7C1C1] rounded-[10px] p-3; }
+
+/* ─── Nav link active ───────────────────────────────────────── */
+.nav-link { @apply text-sm text-gray-400 px-3 py-1.5 rounded-[7px] transition-colors; }
+.nav-link:hover { @apply bg-[#F7F5F0] text-dark; }
+.nav-link.active { @apply bg-[#FFF0EB] text-orange font-medium; }
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.2s ease-out; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up { animation: slideUp 0.25s ease-out; }
+
+/* ─── Listing card image ────────────────────────────────────── */
+.listing-img {
+  @apply w-full aspect-square object-cover bg-[#F7F5F0];
+}
+
+/* ─── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
