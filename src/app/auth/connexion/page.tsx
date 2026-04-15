@@ -26,6 +26,7 @@ export default function ConnexionPage() {
         setError(data.error || 'Erreur de connexion');
       } else {
         router.push('/compte');
+        router.refresh();
       }
     } catch {
       setError('Erreur réseau. Réessayez.');
@@ -51,8 +52,8 @@ export default function ConnexionPage() {
             <div style={{ fontWeight: 800, fontSize: '32px', color: '#1A1A18', marginBottom: '8px' }}>
               France<span style={{ color: '#E8460A' }}>Occas</span>.fr
             </div>
-            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#1A1A18', marginBottom: '6px' }}>Connexion à votre compte</h1>
-            <p style={{ fontSize: '13px', color: '#6B6B66' }}>Bon retour ! Entrez vos identifiants pour continuer.</p>
+            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#1A1A18', marginBottom: '6px' }}>Connexion</h1>
+            <p style={{ fontSize: '13px', color: '#6B6B66' }}>Entrez vos identifiants pour continuer.</p>
           </div>
 
           <div style={{ background: '#fff', border: '1px solid #E2DDD6', borderRadius: '16px', padding: '28px' }}>
@@ -63,27 +64,41 @@ export default function ConnexionPage() {
             )}
 
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>Adresse email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px' }}>
+                Adresse email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 placeholder="vous@exemple.fr"
                 onKeyDown={e => e.key === 'Enter' && handleSubmit()}
                 style={{ width: '100%', border: '1px solid #E2DDD6', borderRadius: '9px', padding: '11px 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
                 onFocus={e => e.target.style.borderColor = '#E8460A'}
-                onBlur={e => e.target.style.borderColor = '#E2DDD6'} />
+                onBlur={e => e.target.style.borderColor = '#E2DDD6'}
+              />
             </div>
 
             <div style={{ marginBottom: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Mot de passe</label>
-                <Link href="/auth/reset-password" style={{ fontSize: '12px', color: '#E8460A', textDecoration: 'none' }}>Mot de passe oublié ?</Link>
+                <label style={{ fontSize: '11px', fontWeight: 600, color: '#6B6B66', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Mot de passe
+                </label>
+                <Link href="#" style={{ fontSize: '12px', color: '#E8460A', textDecoration: 'none' }}>
+                  Mot de passe oublié ?
+                </Link>
               </div>
               <div style={{ position: 'relative' }}>
-                <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                   placeholder="Votre mot de passe"
                   onKeyDown={e => e.key === 'Enter' && handleSubmit()}
                   style={{ width: '100%', border: '1px solid #E2DDD6', borderRadius: '9px', padding: '11px 44px 11px 14px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
                   onFocus={e => e.target.style.borderColor = '#E8460A'}
-                  onBlur={e => e.target.style.borderColor = '#E2DDD6'} />
+                  onBlur={e => e.target.style.borderColor = '#E2DDD6'}
+                />
                 <button onClick={() => setShowPassword(!showPassword)}
                   style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}>
                   {showPassword ? '🙈' : '👁️'}
@@ -95,12 +110,20 @@ export default function ConnexionPage() {
               style={{ width: '100%', background: loading ? '#AEABA3' : '#E8460A', color: '#fff', border: 'none', borderRadius: '9px', padding: '13px', fontSize: '15px', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', marginTop: '20px' }}>
               {loading ? '⏳ Connexion…' : 'Se connecter →'}
             </button>
-          </div>
 
-          <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: '#6B6B66' }}>
-            Pas encore de compte ?{' '}
-            <Link href="/auth/inscription" style={{ color: '#E8460A', fontWeight: 600, textDecoration: 'none' }}>Créer un compte gratuitement</Link>
-          </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '20px 0' }}>
+              <div style={{ flex: 1, height: '1px', background: '#E2DDD6' }} />
+              <span style={{ fontSize: '12px', color: '#AEABA3' }}>ou</span>
+              <div style={{ flex: 1, height: '1px', background: '#E2DDD6' }} />
+            </div>
+
+            <div style={{ background: '#F7F5F0', borderRadius: '9px', padding: '12px 14px', fontSize: '12px', color: '#6B6B66', textAlign: 'center' }}>
+              Nouveau sur FranceOccas ?{' '}
+              <Link href="/auth/inscription" style={{ color: '#E8460A', fontWeight: 600, textDecoration: 'none' }}>
+                Créer un compte gratuit →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
