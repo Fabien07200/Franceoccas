@@ -29,7 +29,7 @@ export default function InscriptionPage() {
     if (!validateStep1()) return;
     setLoading(true);
     try {
-      const res = await fetch('/api/auth', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: form.email, password: form.password, full_name: form.full_name, city: form.city, department: form.department }),
